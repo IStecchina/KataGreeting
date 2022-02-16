@@ -1,28 +1,23 @@
 ﻿using NUnit.Framework;
-using Moq;
-using Greeting.Chain;
 
 namespace Greeting.Test
 {
     public class OneNameHandlerTests
     {
-        private IGreetingHandler _sut;
+        private IGreeting _g;
 
         [SetUp]
         public void Setup()
         {
-            var mock= new Mock<IGreetingHandler>();
-            mock.Setup(x => x.Handle("Andrea")).Returns("Hello, Andrea.");
-            mock.Setup(x => x.Handle("ANDREA")).Returns("HELLO, ANDREA!");
-            _sut = mock.Object;
-          
+            _g = new GreetingOrchestrator();
+
         }
 
         [Test]
         public void Should_Add_Greeting_To_Name()
         {
             var expected = "Hello, Andrea.";
-            var actual = _sut.Handle("Andrea");
+            var actual = _g.Greet("Andrea");
 
             Assert.AreEqual(expected, actual);
         }
@@ -30,8 +25,8 @@ namespace Greeting.Test
         [Test]
         public void Should_Handle_Uppercase_Name()
         {
-            var expected = "HELLO, ANDREA!";
-            var actual = _sut.Handle("ANDREA");
+            var expected = "HELLO ANDREA!";
+            var actual = _g.Greet("ANDREA");
 
             Assert.AreEqual(expected, actual);
         }

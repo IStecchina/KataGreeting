@@ -2,6 +2,6 @@
 {
     public interface IGreeting
     {
-        string Greet(params string[]  name);
+        string Greet(params string[] names);
     }
 }
