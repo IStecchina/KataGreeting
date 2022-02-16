@@ -127,6 +127,10 @@ namespace Greeting.Test
             expected = "Hello, my friend.";
             actual = _g.Greet(null, "\"\"", "  ", "\"  \"");
             Assert.AreEqual(expected, actual);
+
+            expected = "Hello, \"Andrea, Franco\", and Giuseppe.";
+            actual = _g.Greet("\"Andrea,Franco\",Giuseppe");
+            Assert.AreEqual(expected, actual);
         }
 
     }

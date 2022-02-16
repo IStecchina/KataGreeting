@@ -16,7 +16,7 @@ namespace Greeting
             //Don't add empty names
             void TryAdd(string s)
             {
-                if(s.Trim().Length > 0)
+                if (s.Trim().Length > 0)
                 {
                     result.Add(s.Trim());
                 }
@@ -24,23 +24,24 @@ namespace Greeting
 
             foreach (var entry in names)
             {
+                //Skip null entries
                 if (entry is null)
                 {
-                    //Skip null entries
+                    continue;
+                }
+                //Double-quoted entries
+                if (IsDoubleQuoted(entry))
+                {
+                    TryAdd(entry[1..^1]);
                 }
                 //Multiple names separated by commas
-                else if (entry.Contains(",") && !IsDoubleQuoted(entry))
+                else if (entry.Contains(","))
                 {
                     var temp = entry.Split(",");
                     foreach (var i in temp)
                     {
                         TryAdd(i);
                     }
-                }
-                //Double-quoted entries
-                else if (IsDoubleQuoted(entry))
-                {
-                    TryAdd(entry[1..^1]);
                 }
                 //Entries without commas or double quotes
                 else
@@ -51,7 +52,7 @@ namespace Greeting
             return result.ToArray();
         }
 
-        // [""] is a valid double quote, ["] is not
+        // [""] is a valid double quote, ["] is not, ["a,b",c] is not
         private static bool IsDoubleQuoted(string s) => s.StartsWith('"') && s.EndsWith('"') && s.Length >= 2;
     }
 }

@@ -16,14 +16,34 @@ namespace Greeting.Greeters
             if (namesLC.Length > 0)
             {
                 sbLowercaseNames.Append("Hello");
-                for (int i = 0; i < namesLC.Length - 1; i++)
+                foreach (string name in namesLC[..^1])
                 {
-                    sbLowercaseNames.Append($", {namesLC[i]}");
+                    sbLowercaseNames.Append($", {name}");
                 }
                 //Last name handling
                 sbLowercaseNames.Append(GreetLastLowerCaseName(namesLC[^1], namesLC.Length));
             }
             return sbLowercaseNames.ToString();
+        }
+
+        public static Task<string> GreetTask(string[] namesLC)
+        {
+            return Task<string>.Factory.StartNew(() =>
+            {
+                var sbAsync = new StringBuilder();
+                if (namesLC.Length > 0)
+                {
+                    sbAsync.Append("Hello");
+                    foreach (string name in namesLC[..^1])
+                    {
+                        sbAsync.Append($", {name}");
+                    }
+                    //Last name handling
+                    sbAsync.Append(GreetLastLowerCaseName(namesLC[^1], namesLC.Length));
+                }
+                return sbAsync.ToString();
+            }
+            );
         }
 
         //The last lowercase name is handled differently depending on how many other lowercase names there are
